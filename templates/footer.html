@@ -1,0 +1,132 @@
+
+<style type="text/css">/* Footer Styles */
+.footer {
+    background-color: #343a40; /* Dark background for footer */
+    color: #ffffff; /* White text for contrast */
+    padding: 40px 20px; /* Ample padding for space */
+    text-align: center; /* Center align text */
+    border-top: 5px solid #007bff; /* Bright top border */
+}
+
+.footer-content {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between sections */
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 20px; /* Space below content */
+}
+
+.footer-left, .footer-center, .footer-right {
+    flex: 1; /* Equal width for sections */
+    padding: 10px; /* Padding for inner spacing */
+}
+
+.footer-left h4, .footer-center h4, .footer-right h4 {
+    margin-bottom: 15px; /* Space below headings */
+    font-size: 1.5em; /* Larger font size for headings */
+}
+
+.footer-center p, .footer-left p {
+    margin: 5px 0; /* Margin for paragraphs */
+}
+
+.footer-services {
+    text-align: center; /* Center align the services section */
+    margin-top: 20px; /* Space above the services section */
+}
+
+.footer-services h4 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 1.5em;
+}
+
+.footer-nav {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove padding */
+    display: flex; /* Flexbox for layout */
+    justify-content: center; /* Center the navigation */
+    flex-wrap: wrap; /* Wrap links on smaller screens */
+}
+
+.footer-nav li {
+    margin: 0 10px; /* Space between links */
+}
+
+.footer-nav a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Bright link color */
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.footer-nav a:hover {
+    text-decoration: underline; /* Underline on hover */
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.social-media {
+    display: flex; /* Flexbox for social links */
+    justify-content: center; /* Center the links */
+    margin-top: 10px; /* Space above social media links */
+}
+
+.social-media a {
+    text-decoration: none;
+    margin: 0 10px; /* Space between social links */
+    color: #ffffff; /* White text for social links */
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.social-media a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center items */
+    }
+
+    .footer-nav {
+        flex-direction: column; /* Stack navigation vertically */
+        align-items: center; /* Center nav items */
+    }
+
+    .footer-nav li {
+        margin: 10px 0; /* Space between links */
+    }
+}</style>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <h4>LibraryKurdi</h4>
+            <p>© 2024 LibraryKurdi. All rights reserved.</p>
+        </div>
+        
+        <div class="footer-center">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="mailto:info@librarykurdi.com">info@librarykurdi.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+123-456-7890</a></p>
+            <p>Address: 123 Library St., City, Country</p>
+        </div>
+        
+        <div class="footer-right">
+            <h4>Follow Us</h4>
+            <div class="social-media">
+                <a href="https://www.facebook.com/Zank0.H.Aziz" aria-label="Facebook" target="_blank">Facebook</a>
+                <a href="#" aria-label="Instagram" target="_blank">Instagram</a>
+                <a href="#" aria-label="Twitter" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-services">
+        <h4>Services</h4>
+        <ul class="footer-nav">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('category') }}">Category</a></li>
+        </ul>
+    </div>
+</footer>

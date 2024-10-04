@@ -1,0 +1,16 @@
+<h1>Books in {{ category.name }}</h1>
+<p>{{ category.description }}</p>
+
+<ul>
+    {% for book in books %}
+        <li>
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.description }}</p>
+            <p>Written by: {{ book.writer }}</p>
+            <img src="{{ url_for('static', filename=book.cover) }}" alt="{{ book.title }}" width="100">
+            <a href="{{ url_for('static', filename=book.file) }}">Download PDF</a>
+        </li>
+    {% else %}
+        <p>No books found in this category.</p>
+    {% endfor %}
+</ul>

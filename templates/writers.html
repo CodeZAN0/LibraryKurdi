@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryKurdi - Writers</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style type="text/css">
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Poppins", sans-serif;
+    --color1: #FFF;
+    --color2: #181818;
+}
+
+
+/* Card Styles */
+.card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+}
+.card-body {
+    padding: 1rem;
+}
+.card-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+.card-description {
+    color: #666;
+    margin: 1rem 0;
+}
+.writer-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Container (Grid Layout) */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+</style>
+<body>
+     {% include 'navbar.html' %} <!-- Include the navbar here -->
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+<h1 id="writers-logo">Writers</h1>
+    <div class="container">
+        
+        {% for writer in writers %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='writers/' + writer.image) }}" alt="{{ writer.name }}" class="writer-image">
+            <div class="card-body">
+                <h2 class="card-title">{{ writer.name }}</h2>
+                <p class="card-description">{{ writer.bio }}</p>
+                <p><strong>Number of Books:</strong> {{ writer.num_books }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+      {% include 'footer.html' %}
+    </div>
+
+</body>
+</html>

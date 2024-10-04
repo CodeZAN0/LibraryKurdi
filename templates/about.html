@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryKurdi</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaeaea; /* Soft background color */
+            color: #333;
+        }
+        /* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+
+}
+
+
+        h1 {
+            margin: 0;
+            font-size: 2.8em;
+            color: #4CAF50;
+        }
+    
+
+        h2, h3 {
+            color: #4CAF50; /* Green color */
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align items */
+        }
+
+        section {
+            padding: 20px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px; /* Limit width */
+            width: 90%; /* Responsive width */
+        }
+
+        ul {
+            margin: 0 0;
+            padding-left: 20px; /* Indent the list */
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #333;
+            color: #fff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+        a{text-decoration: none;
+            color: black;}
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px 0;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0; /* Stack links vertically on smaller screens */
+            }
+        }
+
+    </style>
+</head>
+<body>
+      {% include 'navbar.html' %} <!-- Include the navbar here -->
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+       
+
+    <main>
+        <h1>Welcome to LibraryKurdi</h1>
+        <section id="about">
+            <h2>About LibraryKurdi</h2>
+            <p>Welcome to LibraryKurdi, your smart library designed for everyone! Our mission is to provide access to a vast collection of resources, knowledge, and literature that cater to diverse interests and needs.</p>
+            <h3>What We Offer:</h3>
+            <ul>
+                <li><strong>Diverse Collection:</strong> From classic literature to contemporary works, our library includes books, articles, and multimedia resources in various languages, ensuring there's something for everyone.</li>
+                <li><strong>User-Friendly Platform:</strong> Our intuitive online platform allows you to easily search, borrow, and read your favorite materials from the comfort of your home or on the go.</li>
+                <li><strong>Community Engagement:</strong> We believe in the power of community. LibraryKurdi offers events, workshops, and discussions to connect readers and foster a love for literature and learning.</li>
+                <li><strong>Accessibility:</strong> LibraryKurdi is designed to be inclusive, providing resources that are accessible to individuals of all backgrounds and abilities.</li>
+            </ul>
+            <h3>Join Us:</h3>
+            <p>Become a part of our vibrant community! Sign up today to explore our collections and participate in our events.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>We’d love to hear from you! If you have any questions, suggestions, or feedback, please reach out to us through the following channels:</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:info@librarykurdi.com">info@librarykurdi.com</a></li>
+                <li><strong>Phone:</strong> +123 456 7890</li>
+            </ul>
+            <h3>Follow Us on Social Media:</h3>
+            <ul>
+                <li><a href="https://www.facebook.com/Zank0.H.Aziz/">Facebook</a></li>
+                <li><a href="https://x.com/0xzanko_legend?s=21&t=pSA2rw9YKp00ords6HGdoQ">Twitter</a></li>
+                <li><a href="https://www.instagram.com/zanolegend?igsh=MXVybWQ1MXQ3MHd5cQ%3D%3D&utm_source=qr">Instagram</a></li>
+
+            </ul>
+            <h3>Address:</h3>
+            <p>LibraryKurdi<br>
+            123 Library Lane<br>
+            City, Country, ZIP Code</p>
+        </section>
+        
+        <section id="developer">
+            <h2>Developer</h2>
+            <p>My Name is Zanko Hatam Aziz. I'm from Kurdistan in Iraq. I am 17 years old and a high school student.</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:Zanko.h.Aziz@gmail.com">Zanko.h.Aziz@gmail.com</a></li>
+                <li><strong>Phone:</strong> +964 7501310281</li>
+            </ul>
+            <h3>Follow Me on Social Media:</h3>
+            <ul>
+                <li><a href="https://www.facebook.com/Zank0.H.Aziz/">Facebook</a></li>
+                <li><a href="https://x.com/0xzanko_legend?s=21&t=pSA2rw9YKp00ords6HGdoQ">Twitter</a></li>
+                <li><a href="https://www.instagram.com/zanolegend?igsh=MXVybWQ1MXQ3MHd5cQ%3D%3D&utm_source=qr">Instagram</a></li>
+            </ul>
+            <h3>Address:</h3>
+            <p>LibraryKurdi<br>
+            123 Library Lane<br>
+            City, Country, ZIP Code</p>
+        </section>
+    </main>
+
+    {% include 'footer.html' %}
+    <script src=".//static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Kurdi - Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="..\static\css\admin_nav.css">
+    <link rel="icon" href="{{ url_for('static', filename='../static/image/logo.png') }}" type="image/png">
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Flash Messages */
+        .flash {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .flash.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .flash.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Form Styling */
+        form {
+            margin-bottom: 2rem;
+        }
+
+        form div {
+            margin-bottom: 1rem;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form textarea,
+        form input[type="file"],
+        form select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #333;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #555;
+        }
+
+        /* Table Styles */
+        .book-table, table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        thead {
+            background-color: #333;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #444;
+        }
+
+        .book-cover {
+            width: 50px;
+            height: auto;
+        }
+
+        .actions a, .btn {
+            display: inline-block;
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        .actions a:hover, .btn:hover {
+            background-color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .container {
+                width: 95%;
+                margin: 1rem auto;
+            }
+
+            .book-cover {
+                width: 40px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions a, .btn {
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            form {
+                margin-bottom: 1rem;
+            }
+
+            form div {
+                margin-bottom: 0.5rem;
+            }
+
+            form input[type="text"],
+            form textarea,
+            form input[type="file"],
+            form select {
+                padding: 0.4rem;
+            }
+
+            form button {
+                padding: 0.5rem 1rem;
+            }
+
+            .book-table, table {
+                font-size: 0.9rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('books_list') }}">Books List</a></li>
+            <li><a href="#">User Activities</a></li>
+            <li><a href="{{ url_for('top_downloaded_books') }}">Top Downloaded Books</a></li>
+            <li><a href="{{ url_for('top_read_books') }}">Top Read Books</a></li>
+            <li><a href="{{ url_for('add_book') }}">Add Book</a></li>
+            <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin_logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Categories List (for debugging purposes) -->
+        
+    <h2>Add New Book</h2>
+
+    <!-- Add Book Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" name="title" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea name="description" required></textarea>
+        </div>
+        <div>
+            <label for="writer">Writer:</label>
+            <input type="text" name="writer" required>
+        </div>
+        <div>
+            <label for="cover">Cover Image:</label>
+            <input type="file" name="cover" accept="image/*" required>
+        </div>
+        <div>
+            <label for="file">PDF File:</label>
+            <input type="file" name="file" accept=".pdf" required>
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <select name="category" required>
+                <option value="">Select a category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" name="add_book">Add Book</button>
+    </form>
+
+
+        <h2>Add New Writer</h2>
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('add_writer') }}">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label for="bio">Biography:</label>
+        <textarea name="bio" required></textarea>
+    </div>
+    <div>
+        <label for="num_books">Number of Books:</label>
+        <input type="number" name="num_books" required>
+    </div>
+    <div>
+        <label for="image">Profile Image:</label>
+        <input type="file" name="image" required>
+    </div>
+    <button type="submit">Add Writer</button>
+</form>
+
+
+<h1>Admin Dashboard - Manage Categories</h1>
+<h2>Add New Category</h2>
+
+<form method="POST" action="{{ url_for('add_category') }}">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.icon.label }}<br>
+        {{ form.icon(size=10) }}
+    </div>
+    <div>
+        {{ form.name.label }}<br>
+        {{ form.name(size=40) }}
+    </div>
+    <div>
+        {{ form.description.label }}<br>
+        {{ form.description(cols=40, rows=4) }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+
+
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Icon</th>
+            <th>Actions</th>
+        </tr>
+        {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.icon }}</td>
+            <td>
+                <a href="{{ url_for('edit_category', id=category.id) }}">Edit</a> |
+                <a href="{{ url_for('delete_category', id=category.id) }}" onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h1>Categories</h1>
+<ul>
+    {% for category in categories %}
+    <li>
+        <a href="{{ url_for('books_by_category', category_id=category.id) }}">
+            {{ category.name }} ({{ category.icon }})
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Writers List -->
+<h2>Writers List</h2>
+<table class="book-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Number of Books</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for writer in writers %}
+        <tr>
+            <td><img src="{{ url_for('static', filename='writers/' ~ writer.image) }}" alt="{{ writer.name }}" class="book-cover"></td>
+            <td>{{ writer.name }}</td>
+            <td>{{ writer.num_books }}</td>
+            <td>
+                <!-- Edit/Delete Actions -->
+                <div class="action-buttons">
+                    <form action="{{ url_for('edit_writer', writer_id=writer.id) }}" method="GET" style="display:inline;">
+                        <button type="submit" class="btn">Edit</button>
+                    </form>
+                    <form action="{{ url_for('delete_writer', writer_id=writer.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+        
+        <!-- Books List -->
+        <h2>Books List</h2>
+        <table class="book-table">
+            <thead>
+                <tr>
+                    <th>Cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='covers/' ~ book.cover_image) }}" alt="{{ book.title }} Cover" class="book-cover"></td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.writer }}</td>
+                        <td>
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <form action="{{ url_for('edit_book', book_id=book.id) }}" method="GET" style="display:inline;">
+                                    <button type="submit" class="btn">Edit</button>
+                                </form>
+                                <form action="{{ url_for('download_file', filename=book.pdf_file) }}" method="GET" style="display:inline;">
+                                    <button type="submit" class="btn">Download</button>
+                                </form>
+                                <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Daily Activities -->
+        <h2>Daily Activities</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Book Title</th>
+                    <th>Activity Type</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in daily_activities %}
+                    <tr>
+                        <td>{{ activity.user.username }}</td>
+                        <td>{{ activity.book.title }}</td>
+                        <td>{{ activity.activity_type }}</td>
+                        <td>{{ activity.timestamp }}</td>
+                        <td>
+                            <div class="actions">
+                                <a href="">View</a>
+                                <a href="{{ url_for('delete_activity', activity_id=activity.id) }}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Weekly Activities -->
+        <h2>Weekly User Activities</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Book Title</th>
+                    <th>Activity Type</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in weekly_activities %}
+                    <tr>
+                        <td>{{ activity.user.username }}</td>
+                        <td>{{ activity.book.title }}</td>
+                        <td>{{ activity.activity_type }}</td>
+                        <td>{{ activity.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Top Downloaded Books -->
+        <h2>Top Downloaded Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Download Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_downloaded_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.download_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Top Read Books -->
+        <h2>Top Read Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Read Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_read_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.read_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+  
+</body>
+</html>

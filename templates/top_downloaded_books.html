@@ -1,0 +1,18 @@
+<!-- Top Downloaded Books -->
+        <h2>Top Downloaded Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Download Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_downloaded_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.download_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryKurdi - Book Categories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<style type="text/css">
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@400;500&display=swap');
+
+/* Basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header section */
+.header {
+    
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+}
+
+.header .overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.header h1 {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.header p {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+/* Container layout */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Categories grid section */
+.categories {
+    width: 100%; /* Full width since sidebar is removed */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.category-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.category-card .icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.category-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.category-card p {
+    font-size: 1em;
+    color: #555;
+}
+
+/* Footer section */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.footer .social-media a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer .social-media a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .header h1 {
+        font-size: 2.5em;
+    }
+
+    .header p {
+        font-size: 1.2em;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .categories {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .header p {
+        font-size: 1em;
+    }
+
+    .category-card h3 {
+        font-size: 1.3em;
+    }
+
+    .category-card p {
+        font-size: 0.9em;
+    }
+
+    .footer {
+        font-size: 0.9em;
+    }
+}
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+</style>
+<body>
+     {% include 'navbar.html' %} <!-- Include the navbar here -->
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="overlay">
+            <h1>Explore by Category</h1>
+            <p>Browse our wide range of genres to find your next favorite book</p>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <div class="container">
+        <!-- Categories Grid Section -->
+        <main class="categories">
+            {% for category in categories %}
+            <a style="text-decoration: none;" href="{{ url_for('category_books', category_id=category.id ,) }}">
+                <div class="category-card">
+                    <div class="icon">{{ category.icon }}</div>
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </main>
+    </div>
+
+    <!-- Footer Section -->
+    {% include 'footer.html' %}
+    <script src="../static/js/main.js"></script>
+</body>
+</html>

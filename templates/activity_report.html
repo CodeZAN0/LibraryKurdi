@@ -1,0 +1,49 @@
+<h1>Activity Report</h1>
+
+<h2>Weekly Activity</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Book Type</th>
+            <th>Week Start Date</th>
+            <th>Total Views</th>
+            <th>Total Downloads</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for activity in weekly_activities %}
+        <tr>
+            <td>{{ activity.book.title }}</td>
+            <td>{{ activity.book_type.name }}</td>
+            <td>{{ activity.week_start_date }}</td>
+            <td>{{ activity.total_views }}</td>
+            <td>{{ activity.total_downloads }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Daily Activity</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Book Type</th>
+            <th>Date</th>
+            <th>Total Views</th>
+            <th>Total Downloads</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for activity in daily_activities %}
+        <tr>
+            <td>{{ activity.book.title }}</td>
+            <td>{{ activity.book_type.name }}</td>
+            <td>{{ activity.date }}</td>
+            <td>{{ activity.total_views }}</td>
+            <td>{{ activity.total_downloads }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

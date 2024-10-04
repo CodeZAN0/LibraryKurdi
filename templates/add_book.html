@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        .flash-message {
+            color: red; /* Change color for better visibility */
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add New Book</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul class="flash-message">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Add Book Form -->
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="title">Title:</label>
+            {{ form.title() }}
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            {{ form.description() }}
+        </div>
+        <div>
+            <label for="writer">Writer:</label>
+            {{ form.writer() }}
+        </div>
+        <div>
+            <label for="cover">Cover Image:</label>
+            {{ form.cover() }}
+        </div>
+        <div>
+            <label for="file">PDF File:</label>
+            {{ form.file() }}
+        </div>
+       <div>
+    <label for="category">Category:</label>
+    {{ form.category() }}  <!-- This should render a select dropdown -->
+</div>
+
+        <button type="submit" name="add_book">Add Book</button>
+    </form>
+</body>
+</html>

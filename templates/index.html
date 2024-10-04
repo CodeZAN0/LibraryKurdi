@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryKurdi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            --color1: #FFF;
+            --color2: #181818;
+        }
+        /* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+
+
+/* Hover effect */
+#toggle-dark-mode:hover {
+    background-color: #0056b3;
+}
+
+/* Dark mode button style */
+body.dark-mode #toggle-dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+       
+
+        /* Main container */
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 0 auto;
+            color: black;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: calc(100% - 40px);
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin: 1rem 0;
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            gap: 10px; /* Add space between rows */
+            padding: 1rem;
+            background-color: #e7e7e7;
+        }
+
+        .card-footer .btn-row {
+            display: flex;
+            justify-content: space-between; /* Space buttons across the row */
+            gap: 10px;
+        }
+
+        .card-footer a, .card-footer button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            /*margin: 5px;*/
+            white-space: nowrap;
+        }
+
+        .card-footer a:hover {
+            background-color: #0056b3;
+        }
+
+        .card-footer .read-online {
+            background-color: #28a745;
+        }
+
+        .card-footer .read-online:hover {
+            background-color: #218838;
+        }
+
+        .wishlist-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem; /* Adjust size as needed */
+            color: #ff4b5c; /* Heart color */
+            transition: color 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .wishlist-btn:hover {
+            color: #d43f4a; /* Darker heart color on hover */
+        }
+
+        .wishlist-btn:focus {
+            outline: none; /* Remove focus outline */
+        }
+
+        /* Media Queries */
+        @media(max-width: 610px) {
+            .menu {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 80%;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                z-index: 100;
+                background-color: var(--color2);
+                transition: all 0.2s ease-in-out;
+            }
+
+            .menu li {
+                margin-top: 40px;
+            }
+
+            .menu li a {
+                padding: 1rem;
+            }
+
+            .open-menu, .close-menu {
+                display: block;
+            }
+
+            #check:checked ~ .menu {
+                right: 0;
+            }
+        }
+
+        /* Responsive Design for Smaller Screens */
+        @media screen and (max-width: 576px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%; /* Cards take full width */
+            }
+        }
+
+        /* Larger tablets */
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+        }
+
+        /* Large desktops */
+        @media screen and (min-width: 1024px) {
+            .container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .card {
+                width: calc(33.33% - 40px); /* Display 3 cards per row */
+            }
+        }
+
+        /* Heading Styles */
+        h1 {
+            font-size: 2rem;
+            color: white;
+            text-transform: uppercase;
+        }
+        /* Search Bar */
+.search-bar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 50%;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #343a40; /* Dark background for footer */
+    color: #ffffff; /* White text for contrast */
+    padding: 40px 20px; /* Ample padding for space */
+    text-align: center; /* Center align text */
+    border-top: 5px solid #007bff; /* Bright top border */
+}
+
+.footer-content {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between sections */
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 20px; /* Space below content */
+}
+
+.footer-left, .footer-center, .footer-right {
+    flex: 1; /* Equal width for sections */
+    padding: 10px; /* Padding for inner spacing */
+}
+
+.footer-left h4, .footer-center h4, .footer-right h4 {
+    margin-bottom: 15px; /* Space below headings */
+    font-size: 1.5em; /* Larger font size for headings */
+}
+
+.footer-center p, .footer-left p {
+    margin: 5px 0; /* Margin for paragraphs */
+}
+
+.footer-services {
+    text-align: center; /* Center align the services section */
+    margin-top: 20px; /* Space above the services section */
+}
+
+.footer-services h4 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 1.5em;
+}
+
+.footer-nav {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove padding */
+    display: flex; /* Flexbox for layout */
+    justify-content: center; /* Center the navigation */
+    flex-wrap: wrap; /* Wrap links on smaller screens */
+}
+
+.footer-nav li {
+    margin: 0 10px; /* Space between links */
+}
+
+.footer-nav a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Bright link color */
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.footer-nav a:hover {
+    text-decoration: underline; /* Underline on hover */
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.social-media {
+    display: flex; /* Flexbox for social links */
+    justify-content: center; /* Center the links */
+    margin-top: 10px; /* Space above social media links */
+}
+
+.social-media a {
+    text-decoration: none;
+    margin: 0 10px; /* Space between social links */
+    color: #ffffff; /* White text for social links */
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.social-media a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center items */
+    }
+
+    .footer-nav {
+        flex-direction: column; /* Stack navigation vertically */
+        align-items: center; /* Center nav items */
+    }
+
+    .footer-nav li {
+        margin: 10px 0; /* Space between links */
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+     {% include 'navbar.html' %} <!-- Include the navbar here -->
+
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search book " onkeyup="searchBooks()">
+    </div>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="container">
+        {% for book in books %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='covers/' + book.cover_image) }}" alt="Cover Image">
+            <div class="card-body">
+                <h2 class="card-title">{{ book.title }}</h2>
+                <p class="card-description">Written by: {{ book.writer }}</p>
+            </div>
+            <div class="card-footer">
+                <!-- First line: Read Online button -->
+                <div class="btn-row">
+                    <a class="read-online" href="{{ url_for('read_online', filename=book.pdf_file) }}">Read Online</a>
+                </div>
+                <!-- Second line: Download PDF and Wish button -->
+               <div class="btn-row">
+    <a href="{{ url_for('download_file', filename=book.pdf_file) }}">Download PDF</a>
+    <form action="{{ url_for('add_to_wishlist', book_id=book.id) }}" method="post" style="display:inline;">
+        <button type="submit" class="wishlist-btn"><i class="fas fa-heart"></i></button>
+    </form>
+</div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+<!-- Footer Section -->
+{% include 'footer.html' %}
+
+<script src="../static/js/main.js"></script>
+
+
+
+
+    <script>
+        function searchBooks() {
+            let input = document.getElementById('searchInput').value.toUpperCase();
+            let cards = document.getElementsByClassName('card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByClassName('card-title')[0].innerText.toUpperCase();
+                if (title.indexOf(input) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

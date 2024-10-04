@@ -1,0 +1,18 @@
+   <!-- Top Read Books -->
+        <h2>Top Read Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Read Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_read_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.read_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>

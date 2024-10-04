@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<style type="text/css">/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 1rem;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+
+header nav ul li a:hover {
+    background: #575757;
+    border-radius: 4px;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+h1 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+form {
+    margin-top: 1rem;
+}
+
+form div {
+    margin-bottom: 1rem;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+form input[type="text"], form textarea, form input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+form button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #575757;
+}
+
+.flash {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.flash.success {
+    background: #4CAF50;
+}
+
+.flash.error {
+    background: #f44336;
+}
+
+.flash.warning {
+    background: #ff9800;
+}
+
+.flash.info {
+    background: #2196F3;
+}
+
+.book-cover {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+.btn {
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin: 0.2rem;
+}
+
+.btn:hover {
+    background: #575757;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th, table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background: #f4f4f4;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+</style>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('books_list') }}">Books List</a></li>
+                <li><a href="{{ url_for('user_activities') }}">User Activities</a></li>
+                <li><a href="{{ url_for('top_downloaded_books') }}">Top Downloaded Books</a></li>
+                <li><a href="{{ url_for('top_read_books') }}">Top Read Books</a></li>
+                <li><a href="{{ url_for('add_book') }}">Add Book</a></li>
+                <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Edit Book</h1>
+        
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Edit Book Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" name="title" value="{{ book.title }}" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea name="description" required>{{ book.description }}</textarea>
+            </div>
+            <div>
+                <label for="writer">Writer:</label>
+                <input type="text" name="writer" value="{{ book.writer }}" required>
+            </div>
+            <div>
+                <label for="cover">Cover Image:</label>
+                <input type="file" name="cover">
+                {% if book.cover_image %}
+                    <img src="{{ url_for('static', filename='covers/' ~ book.cover_image) }}" alt="{{ book.title }} Cover" class="book-cover">
+                {% endif %}
+            </div>
+            <div>
+                <label for="file">PDF File:</label>
+                <input type="file" name="file">
+                {% if book.pdf_file %}
+                    <a href="{{ url_for('static', filename='pdfs/' ~ book.pdf_file) }}" target="_blank">View Current PDF</a>
+                {% endif %}
+            </div>
+            <button type="submit">Update Book</button>
+        </form>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <form action="{{ url_for('edit_book', book_id=book.id) }}" method="GET" style="display:inline;">
+                <button type="submit" class="btn">Edit</button>
+            </form>
+
+            <a href="{{ url_for('download_file', filename=book.pdf_file) }}" class="btn">Download</a>
+
+            <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

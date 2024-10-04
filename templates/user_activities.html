@@ -1,0 +1,28 @@
+<h2>User Activities</h2>
+<table>
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Book Title</th>
+            <th>Activity Type</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for activity in activities %}
+            <tr>
+                <td>{{ activity.user_id }}</td>
+                <td>{{ activity.book.title }}</td>
+                <td>{{ activity.activity_type }}</td>
+                <td>{{ activity.timestamp }}</td>
+                <td>
+                    <div class="actions">
+                        <a href="{{ url_for('view_activity', id=activity.id) }}">View</a>
+                        <a href="{{ url_for('delete_activity', id=activity.id) }}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

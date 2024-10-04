@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Library Kurdi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            --color1: #FFF;
+            --color2: #181818;
+        }
+
+        /* Basic button style */
+        #toggle-dark-mode {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect */
+        #toggle-dark-mode:hover {
+            background-color: #0056b3;
+        }
+
+        /* Dark mode button style */
+        body.dark-mode #toggle-dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .nav-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            position: relative;
+            background-color: var(--color2);
+            padding: 12px 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .menu {
+            display: flex;
+        }
+
+        .menu li {
+            padding-left: 30px;
+        }
+
+        .menu li a {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--color1);
+            text-align: center;
+            transition: 0.15s ease-in-out;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .menu li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color1);
+            transition: 0.15s ease-in-out;
+        }
+
+        .menu li a:hover:after {
+            width: 100%;
+        }
+
+        .open-menu,
+        .close-menu {
+            position: absolute;
+            color: var(--color1);
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: none;
+        }
+
+        .open-menu {
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .close-menu {
+            top: 20px;
+            right: 20px;
+        }
+
+        #check {
+            display: none;
+        }
+
+        @media (max-width: 610px) {
+            .menu {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 80%;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                z-index: 100;
+                background-color: var(--color2);
+                transition: all 0.2s ease-in-out;
+            }
+
+            .menu li {
+                margin-top: 40px;
+            }
+
+            .menu li a {
+                padding: 10px;
+            }
+
+            .open-menu,
+            .close-menu {
+                display: block;
+            }
+
+            #check:checked ~ .menu {
+                right: 0;
+            }
+
+            /* Hide dark mode button on mobile */
+            #toggle-dark-mode {
+                display: none;
+            }
+        }
+        
+        /* Styles for larger screens */
+        @media (min-width: 610px) {
+            /* Show the dark mode button on larger screens */
+            #toggle-dark-mode {
+                display: block;
+            }
+        }
+
+        /* Heading Styles */
+        #writers-logo {
+            font-size: 2.5rem;
+            color: #181818;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #333;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class='nav-bar'>
+                <li class='logo'>Library Kurdi</li>
+                <input type='checkbox' id='check' />
+                <span class="menu">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('category') }}">Category</a></li>
+                    <li><a href="{{ url_for('writers_page') }}">Writers</a></li>
+                    <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    {% if user %}
+                        <li><a href="{{ url_for('profile', user_id=user.id) }}">My Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                    {% endif %}
+                    <label for="check" class="close-menu"><i class="fas fa-times"></i></label>
+                </span>
+                <label for="check" class="open-menu"><i class="fas fa-bars"></i></label>
+                <button id="toggle-dark-mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </ul>
+            
+        </nav>
+    </header>
+
+    <script>
+        const toggleButton = document.getElementById('toggle-dark-mode');
+        const currentTheme = localStorage.getItem('theme');
+        const icon = toggleButton.querySelector('i');
+
+        // Apply the saved theme on page load
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        // Toggle dark mode and icon on button click
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            // Change the icon and save the theme preference
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+</body>
+</html>

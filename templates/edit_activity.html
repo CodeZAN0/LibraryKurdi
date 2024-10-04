@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Activity</title>
+</head>
+<body>
+    <h1>Edit Activity</h1>
+    <form method="POST" action="{{ url_for('edit_activity', activity_id=activity.id) }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.user_id.label }} {{ form.user_id() }}
+        </div>
+        <div>
+            {{ form.book_id.label }} {{ form.book_id() }}
+        </div>
+        <div>
+            {{ form.activity_type.label }} {{ form.activity_type() }}
+        </div>
+        <div>
+            {{ form.timestamp.label }} {{ form.timestamp() }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - LibraryKurdi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+
+        .profile-header div {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .bio {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .profile-info h3 {
+            color: #333;
+        }
+
+        .profile-info p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .profile-info .info-item {
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .action-buttons button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add styles to remove default link styling inside buttons */
+        .action-buttons button a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %} <!-- Include the navbar here -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <!-- Display user's avatar or default avatar -->
+            <img src="{{ url_for('static', filename='avatars/' + user.avatar) if user.avatar else url_for('static', filename='avatars/default.jpg') }}" alt="User Avatar">
+            <div>
+                <h2>{{ user.full_name }}</h2>
+                <p class="bio">{{ user.bio or "No bio available." }}</p>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <h3>Personal Information</h3>
+            <div class="info-item">
+                <strong>Email:</strong> {{ user.email }}
+            </div>
+            <div class="info-item">
+                <strong>Phone Number:</strong> {{ user.phone or "Not provided" }}
+            </div>
+            <div class="info-item">
+                <strong>Location:</strong> {{ user.location or "Not provided" }}
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <h3>Account Information</h3>
+            <div class="info-item">
+                <strong>Account Created:</strong> {{ user.account_created.strftime('%B %d, %Y') }}
+            </div>
+            <div class="info-item">
+                <strong>Membership Type:</strong> {{ user.membership_type or "Basic" }}
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <h3>Reading Preferences</h3>
+            <div class="info-item">
+                <strong>Favorite Genres:</strong> {{ user.favorite_genres or "No favorite genres selected" }}
+            </div>
+            <div class="info-item">
+                <strong>Wishlist:</strong> {{ user.wishlist or "No wishlist items" }}
+            </div>
+        </div>
+
+        <div class="action-buttons">
+           <button><a href="{{ url_for('edit_profile', user_id=user.id) }}">Edit Profile</a></button>
+            <button><a href="{{ url_for('logout') }}">Log Out</a></button>
+        </div>
+    </div>
+</body>
+</html>

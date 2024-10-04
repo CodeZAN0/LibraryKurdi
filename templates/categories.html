@@ -1,0 +1,12 @@
+<h1>Categories</h1>
+
+<ul>
+    {% for category in categories %}
+        <li>
+            <!-- Link each category to the category-specific book list -->
+            <a href="{{ url_for('books_by_category', category_id=category.id) }}">
+                {{ category.name }} - {{ category.description }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
